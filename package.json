@@ -1,0 +1,26 @@
+{
+  "name": "generalpod",
+  "version": "0.0.1",
+  "description": "Convert media urls and links to embedded HTML",
+  "main": "index.js",
+  "dependencies": {
+    "request": ">= 2.12.0"
+  },
+  "devDependencies": {
+    "mocha": ">= 1.4.2",
+    "nock": ">= 0.13.4",
+    "should": ">= 1.1.1"
+  },
+  "scripts": {
+    "test": "make test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/ednapiranha/node-generalpod.git"
+  },
+  "keywords": [
+    "social"
+  ],
+  "author": "Edna Piranha <jen@ednapiranha.com> (http://ednapiranha.com)",
+  "license": "BSD"
+}
