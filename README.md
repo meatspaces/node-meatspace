@@ -1,14 +1,16 @@
-# General Pod
+# Meatspace
 
 ## What it is
 
-A general pod contains information that you can use to send through any social service that supports JSON.
+Micrologging at the most basic form.
 
-## Pod format
+## Meatspace format
 
     {
+        id: 1,
         username: 'ednapiranha',
         fullName: 'Edna Piranha',
+        postUrl: 'http://url/to/this/meatspace.com',
         avatar: 'http://url/to/some/avatar.png',
         content: {
             created: 1368383147,
@@ -21,12 +23,26 @@ A general pod contains information that you can use to send through any social s
                 }
             ]
         },
-        access: 'public',
-        share: [
+        shares: [
             'some_user_1',
             'some_user_2'
         ],
         meta: {
-            'starred': false
+            'location': '37.3882807, -122.0828559',
+            'isPrivate': false,
+            'isUnread': true,
+            'starredBy': []
         }
     }
+
+## Meatspace actions
+
+### Create
+
+### Edit
+
+### Update
+
+### Delete
+
+### Share
