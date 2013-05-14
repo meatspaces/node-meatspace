@@ -8,10 +8,8 @@ Micrologging at the most basic form.
 
     {
         id: 1,
-        username: 'ednapiranha',
         fullName: 'Edna Piranha',
         postUrl: 'http://url/to/this/meatspace.com',
-        avatar: 'http://url/to/some/avatar.png',
         content: {
             created: 1368383147,
             updated: 1368383147,
@@ -23,10 +21,6 @@ Micrologging at the most basic form.
                 }
             ]
         },
-        shares: [
-            'some_user_1',
-            'some_user_2'
-        ],
         meta: {
             'location': '37.3882807, -122.0828559',
             'isPrivate': false,

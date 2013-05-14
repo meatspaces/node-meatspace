@@ -1,12 +1,15 @@
 {
   "name": "meatspace",
   "version": "0.0.1",
-  "description": "Microblogging at the most basic form.",
+  "description": "Micrologging at the most basic form.",
   "main": "index.js",
+  "dependencies": {
+    "hiredis": "0.1.15",
+    "redis": "0.8.3"
+  },
   "devDependencies": {
-    "mocha": ">= 1.4.2",
-    "nock": ">= 0.13.4",
-    "should": ">= 1.1.1"
+    "mocha": ">= 1.9.0",
+    "should": ">= 1.2.2"
   },
   "scripts": {
     "test": "make test"
@@ -16,7 +19,6 @@
     "url": "git://github.com/ednapiranha/node-meatspace.git"
   },
   "keywords": [
-    "social",
     "microblog"
   ],
   "author": "Edna Piranha <jen@ednapiranha.com> (http://ednapiranha.com)",
