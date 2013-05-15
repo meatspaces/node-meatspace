@@ -118,7 +118,7 @@ The default limit is set to 10. You can change this by setting `meat.limit = 15`
 
 ### Share a single public message
 
-    meat.shareOne(function (err, message) {
+    meat.shareOne(1, function (err, message) {
       if (!err) {
         console.log(message);
       }
