@@ -10,6 +10,7 @@ var meat = new Meatspace({
   postUrl: 'http://test.com',
   db: 0
 });
+var id;
 
 var message = {
   content: {
@@ -34,8 +35,32 @@ describe('meatspace', function () {
   });
 
   describe('.create',  function () {
+    it('creates an invalid message', function (done) {
+      meat.fullName = null;
+      meat.create(message, function (err, m) {
+        should.exist(err);
+        done();
+      });
+    });
+
+    it('creates a valid message that times out after 1 second', function (done) {
+      meat.fullName = 'test';
+      message.meta.ttl = 1;
+      meat.create(message, function (err, m) {
+        id = m.id;
+
+        setTimeout(function () {
+          meat.get(id, function (err, m) {
+            should.not.exist(m);
+            done();
+          });
+        }, 2500);
+      });
+    });
+
     it('creates a valid message', function (done) {
       meat.create(message, function (err, m) {
+        id = m.id;
         should.exist(m);
         m.content.should.equal(message.content);
         m.fullName.should.equal(meat.fullName);
@@ -43,18 +68,26 @@ describe('meatspace', function () {
         done();
       });
     });
+  });
 
-    it('creates a valid message that times out after 1 second', function (done) {
-      message.meta.ttl = 1;
-      meat.create(message, function (err, m) {
-        var id = m.id;
+  describe('.get', function () {
+    it('gets a message', function (done) {
+      meat.get(id, function (err, m) {
+        should.exist(m);
+        done();
+      });
+    });
+  });
 
-        setTimeout(function () {
-          meat.get(id, function (err, m) {
-            should.not.exist(m);
-            done();
-          });
-        }, 1800);
+  describe('.update', function () {
+    it('updates a message', function (done) {
+      meat.get(id, function (err, m) {
+       //console.log(m.content.message)
+        m.content.message = 'new message';
+        meat.update(m, function (err, mt) {
+          mt.content.message.should.equal(m.content.message);
+          done();
+        });
       });
     });
   });

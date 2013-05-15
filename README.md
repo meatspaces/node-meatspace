@@ -2,7 +2,7 @@
 
 ## What it is
 
-Micrologging at the most basic form.
+Decentralized micrologging at the most basic form.
 
 ## Meatspace format
 
@@ -31,12 +31,64 @@ Micrologging at the most basic form.
 
 ## Meatspace actions
 
+### Initialize
+
+    var meat = new Meatspace({
+      fullName: 'Edna Piranha',
+      postUrl: 'http://meatspace.generalgoods.net',
+      db: 0
+    });
+
+db is the Redis database you are using.
+
 ### Create
 
-### Edit
+    var message = {
+      content: {
+        message: 'some message',
+        urls: [
+          {
+            title: 'some url',
+            url: 'http://some.url.com'
+          }
+        ]
+      },
+      meta: {
+        location: '37.3882807, -122.0828559',
+        ttl: false,
+        isPrivate: false
+      }
+    };
 
-### Update
+    meat.create(message, function (err, m) {
+      if (!err) {
+        console.log(m);
+      }
+    });
+
+### Edit / Update
+
+    meat.get(1, function (err, m) {
+      if (!err) {
+        m.content.message = 'new updated message';
+        meat.update(m, function (err, m) {
+          if (!err) {
+            console.log(m)
+          }
+        });
+      }
+    });
 
 ### Delete
+
+    meat.get(1, function (err, m) {
+      if (!err) {
+        meat.del(m.id, function (err, status) {
+          if (status) {
+            console.log('deleted!')
+          }
+        });
+      }
+    });
 
 ### Share
