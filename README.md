@@ -2,7 +2,15 @@
 
 ## What it is
 
-Decentralized micrologging at the most basic form.
+Decentralized micrologging. A lightweight module to manage mini posts through your node app.
+
+## Setup
+
+Install redis.
+
+    > brew install redis
+
+    > redis-server
 
 ## Meatspace format
 
@@ -88,4 +96,28 @@ db is the Redis database you are using.
       }
     });
 
-### Share
+### Get all public and private
+
+    meat.getAll(function (err, messages) {
+      if (!err) {
+        console.log(messages);
+      }
+    });
+
+### Share all recent public
+
+The default limit is set to 10. You can change this by setting `meat.limit = 15` as an example.
+
+    meat.shareRecent(function (err, messages) {
+      if (!err) {
+        console.log(messages);
+      }
+    });
+
+### Share a single public message
+
+    meat.shareOne(function (err, message) {
+      if (!err) {
+        console.log(message);
+      }
+    });
