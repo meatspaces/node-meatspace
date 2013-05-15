@@ -11,6 +11,7 @@ var meat = new Meatspace({
   db: 0
 });
 var id;
+var secId;
 
 var message = {
   content: {
@@ -24,14 +25,13 @@ var message = {
   },
   meta: {
     location: '37.3882807, -122.0828559',
-    ttl: false,
     isPrivate: false
   }
 };
 
 describe('meatspace', function () {
   after(function () {
-    meat.flushdb();
+    meat.flush();
   });
 
   describe('.create',  function () {
@@ -43,28 +43,25 @@ describe('meatspace', function () {
       });
     });
 
-    it('creates a valid message that times out after 1 second', function (done) {
-      meat.fullName = 'test';
-      message.meta.ttl = 1;
-      meat.create(message, function (err, m) {
-        id = m.id;
-
-        setTimeout(function () {
-          meat.get(id, function (err, m) {
-            should.not.exist(m);
-            done();
-          });
-        }, 2500);
-      });
-    });
-
-    it('creates a valid message', function (done) {
+    it('creates a valid public message', function (done) {
+      meat.fullName = 'test name';
+      meat.postUrl = 'http://url.to.blog.com';
       meat.create(message, function (err, m) {
         id = m.id;
         should.exist(m);
         m.content.should.equal(message.content);
         m.fullName.should.equal(meat.fullName);
         m.meta.should.equal(message.meta);
+        done();
+      });
+    });
+
+    it('creates a valid private message', function (done) {
+      message.meta.isPrivate = true;
+      meat.create(message, function (err, m) {
+        secId = m.id;
+        should.exist(m);
+        m.meta.isPrivate.should.equal(message.meta.isPrivate);
         done();
       });
     });
@@ -82,11 +79,61 @@ describe('meatspace', function () {
   describe('.update', function () {
     it('updates a message', function (done) {
       meat.get(id, function (err, m) {
-       //console.log(m.content.message)
         m.content.message = 'new message';
         meat.update(m, function (err, mt) {
           mt.content.message.should.equal(m.content.message);
           done();
+        });
+      });
+    });
+  });
+
+  describe('.getAll', function () {
+    it('get all messages', function (done) {
+      meat.getAll(function (err, mArr) {
+        should.exist(mArr);
+        mArr.length.should.equal(2);
+        done();
+      });
+    });
+  });
+
+  describe('.shareRecent', function () {
+    it('get all recent public messages', function (done) {
+      meat.shareRecent(function (err, mArr) {
+        should.exist(mArr);
+        mArr.length.should.equal(1);
+        done();
+      });
+    });
+  });
+
+  describe('.shareOne', function () {
+    it('get a single valid public message', function (done) {
+      meat.shareOne(id, function (err, m) {
+        should.exist(m);
+        m.meta.isPrivate.should.equal(false);
+        done();
+      });
+    });
+
+    it('get a single invalid public message', function (done) {
+      meat.shareOne(secId, function (err, m) {
+        should.exist(err);
+        done();
+      });
+    });
+  });
+
+  describe('.del', function () {
+    it('deletes a message', function (done) {
+      meat.create(message, function (err, m) {
+        id = m.id;
+        meat.del(id, function (err, status) {
+          meat.get(id, function (err, msg) {
+            should.not.exist(msg);
+            done();
+          });
         });
       });
     });

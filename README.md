@@ -22,10 +22,8 @@ Decentralized micrologging at the most basic form.
             ]
         },
         meta: {
-            'location': '37.3882807, -122.0828559',
-            'isPrivate': false,
-            'isUnread': true,
-            'starredBy': []
+            location: '37.3882807, -122.0828559',
+            isPrivate': false
         }
     }
 
@@ -55,7 +53,6 @@ db is the Redis database you are using.
       },
       meta: {
         location: '37.3882807, -122.0828559',
-        ttl: false,
         isPrivate: false
       }
     };
