@@ -39,6 +39,8 @@ Install redis.
 
 ### Initialize
 
+    var Meatspace = require('meatspace');
+
     var meat = new Meatspace({
       fullName: 'Edna Piranha',
       postUrl: 'http://meatspace.generalgoods.net',

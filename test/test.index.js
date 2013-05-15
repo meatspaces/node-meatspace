@@ -74,6 +74,13 @@ describe('meatspace', function () {
         done();
       });
     });
+
+    it('does not get a message', function (done) {
+      meat.get(1111, function (err, m) {
+        should.exist(err);
+        done();
+      });
+    });
   });
 
   describe('.update', function () {
