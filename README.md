@@ -75,9 +75,9 @@ db is the Redis database you are using.
       }
     };
 
-    meat.create(message, function (err, m) {
+    meat.create(message, function (err, message) {
       if (!err) {
-        console.log(m);
+        console.log(message);
       }
     });
 
@@ -96,9 +96,9 @@ db is the Redis database you are using.
 
 ### Delete
 
-    meat.get(1, function (err, m) {
+    meat.get(1, function (err, message) {
       if (!err) {
-        meat.del(m.id, function (err, status) {
+        meat.del(message.id, function (err, status) {
           if (status) {
             console.log('deleted!')
           }
