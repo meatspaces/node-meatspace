@@ -2,6 +2,7 @@
 
 var redis = require('redis');
 var client = redis.createClient();
+var request = require('request');
 
 var KEY = 'meatspace:';
 
@@ -67,7 +68,6 @@ var Meatspace = function (options) {
           }
 
           client.set(KEY + id, JSON.stringify(message));
-
           callback(null, message);
         }
       });
@@ -84,6 +84,79 @@ var Meatspace = function (options) {
         } else {
           callback(new Error('Invalid JSON'));
         }
+      }
+    });
+  };
+
+  this.share = function (message, callback) {
+    if (message.shares.indexOf(this.postUrl) < 0) {
+      message.meta.isShared = true;
+      message.shares.push(this.postUrl);
+
+      self.create(message, callback);
+    } else {
+      callback(new Error('Already shared'));
+    }
+  };
+
+  this.subscribe = function (url, callback) {
+    client.sadd(KEY + 'subscriptions', url.toLowerCase().trim(), function (err) {
+      if (err) {
+        callback(err);
+      } else {
+        callback(null, url);
+      }
+    });
+  };
+
+  this.unsubscribe = function (url, callback) {
+    client.srem(KEY + 'subscriptions', url.toLowerCase().trim(), function (err) {
+      if (err) {
+        callback(err);
+      } else {
+        callback(null, true);
+      }
+    });
+  }
+
+  this.getSubscriptions = function (callback) {
+    client.smembers(KEY + 'subscriptions', function (err, subscriptions) {
+      if (err) {
+        callback(err);
+      } else {
+        callback(null, subscriptions);
+      }
+    });
+  };
+
+  this.getSubscriptionRecent = function (url, callback) {
+    client.sismember(KEY + 'subscriptions', url.toLowerCase().trim(), function (err, status) {
+      if (err || !status) {
+        callback(new Error('Subscription messages not found'));
+      } else {
+        request(url, function (err, resp, body) {
+          if (err) {
+            callback(err);
+          } else {
+            if (typeof body === 'string') {
+              try {
+                body = JSON.parse(body);
+              } catch (e) {
+                callback(new Error('Could not parse JSON'));
+              }
+            }
+
+            var recentArr = [];
+
+            for (var i = 0; i < body.length; i ++) {
+              recentArr.push(body[i]);
+
+              if (recentArr.length === body.length) {
+                callback(null, recentArr);
+              }
+            }
+          }
+        });
       }
     });
   };
@@ -111,7 +184,7 @@ var Meatspace = function (options) {
   };
 
   this.del = function (id, callback) {
-    client.del(KEY + id, function (err, status) {
+    client.del(KEY + id, function (err) {
       if (err) {
         callback(new Error('Error deleting'));
       } else {

@@ -1,4 +1,4 @@
 test:
-	@./node_modules/.bin/mocha --timeout 3000
+	@./node_modules/.bin/mocha
 
 .PHONY: test

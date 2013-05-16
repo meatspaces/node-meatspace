@@ -1,15 +1,17 @@
 {
   "name": "meatspace",
-  "version": "0.0.2",
-  "description": "A lightweight module to manage mini posts through your node app",
+  "version": "0.0.3",
+  "description": "Decentralized micrologging",
   "main": "index.js",
   "dependencies": {
     "hiredis": "0.1.15",
-    "redis": "0.8.3"
+    "redis": "0.8.3",
+    "request": "2.21.0"
   },
   "devDependencies": {
     "mocha": ">= 1.9.0",
-    "should": ">= 1.2.2"
+    "should": ">= 1.2.2",
+    "nock": ">= 0.18.0"
   },
   "scripts": {
     "test": "make test"

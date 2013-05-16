@@ -2,7 +2,11 @@
 
 ## What it is
 
-Micrologging. A lightweight module to manage mini posts through your node app.
+Decentralized micrologging. A lightweight module to manage mini posts through your node app.
+
+## How to use it
+
+You can use curl to run all the commands below or you can create your own site and use the module as part of your micrologging setup.
 
 ## Setup
 
@@ -16,7 +20,7 @@ Install redis.
     {
         id: 1,
         fullName: 'Edna Piranha',
-        postUrl: 'http://url/to/this/meatspace.com',
+        postUrl: 'http://url/to/this/meatspace.com/recent.json',
         content: {
             created: 1368383147,
             updated: 1368383147,
@@ -30,8 +34,12 @@ Install redis.
         },
         meta: {
             location: '37.3882807, -122.0828559',
-            isPrivate': false
-        }
+            isPrivate': false,
+            isShared: false
+        },
+        shares: [
+            'http://some.other.url.com/recent.json'
+        ]
     }
 
 ## Meatspace actions
@@ -42,8 +50,9 @@ Install redis.
 
     var meat = new Meatspace({
       fullName: 'Edna Piranha',
-      postUrl: 'http://meatspace.generalgoods.net',
-      db: 0
+      postUrl: 'http://meatspace.generalgoods.net/recent.json',
+      db: 0,
+      limit: 10
     });
 
 db is the Redis database you are using.
@@ -115,9 +124,19 @@ The default limit is set to 10. You can change this by setting `meat.limit = 15`
       }
     });
 
-### Share a single public message
+### Share a single public message that you authored
 
     meat.shareOne(1, function (err, message) {
+      if (!err) {
+        console.log(message);
+      }
+    });
+
+### Share a public message that someone else authored
+
+Assumptions: externalMessage is a meatspace message from a separate server.
+
+    meat.share(externalMessage, function (err, message) {
       if (!err) {
         console.log(message);
       }
