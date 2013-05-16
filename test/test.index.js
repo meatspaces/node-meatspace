@@ -87,10 +87,14 @@ describe('meatspace', function () {
     it('updates a message', function (done) {
       meat.get(id, function (err, m) {
         m.content.message = 'new message';
-        meat.update(m, function (err, mt) {
-          mt.content.message.should.equal(m.content.message);
-          done();
-        });
+
+        setTimeout(function () {
+          meat.update(m, function (err, mt) {
+            mt.content.message.should.equal(m.content.message);
+            mt.content.updated.should.not.equal(mt.content.created);
+            done();
+          });
+        }, 1000);
       });
     });
   });

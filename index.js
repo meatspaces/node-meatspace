@@ -56,6 +56,7 @@ var Meatspace = function (options) {
           message.id = id;
           message.fullName = self.fullName;
           message.postUrl = self.postUrl;
+          message.content.created = message.content.updated = Math.round(new Date() / 1000);
 
           client.lpush(KEY + 'all:ids', id);
 
@@ -92,6 +93,8 @@ var Meatspace = function (options) {
       if (err) {
         callback(err);
       } else {
+        message.content.updated = Math.round(new Date() / 1000);
+
         client.lrem(KEY + 'private:ids', 0, message.id);
         client.lrem(KEY + 'public:ids', 0, message.id);
 
