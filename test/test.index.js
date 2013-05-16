@@ -171,6 +171,14 @@ describe('meatspace', function () {
         done();
       });
     });
+
+    it('does not get recent messages from an unsubscribed url', function (done) {
+      var subUrl = 'http://some.other.url.unsub/recent.json';
+      meat.getSubscriptionRecent(subUrl, function (err, m) {
+        should.exist(err);
+        done();
+      });
+    });
   });
 
   describe('.unsubscribe', function () {

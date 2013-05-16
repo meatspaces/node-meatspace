@@ -34,7 +34,7 @@ Install redis.
         },
         meta: {
             location: '37.3882807, -122.0828559',
-            isPrivate': false,
+            isPrivate: false,
             isShared: false
         },
         shares: [
@@ -139,6 +139,30 @@ Assumptions: externalMessage is a meatspace message from a separate server.
     meat.share(externalMessage, function (err, message) {
       if (!err) {
         console.log(message);
+      }
+    });
+
+### Subscribe to someone else's meatspace
+
+    meat.subscribe('http://some.other.url/recent.json', function (err, url) {
+      if (!err) {
+        console.log(url);
+      }
+    });
+
+### Unsubscribe to a meatspace
+
+    meat.unsubscribe('http://some.other.url/recent.json', function (err, status) {
+      if (!err) {
+        console.log(status);
+      }
+    });
+
+### Get most recent micrologs from a subscribed meatspace
+
+    meat.getSubscriptionRecent('http://some.other.url/recent.json', function (err, m) {
+      if (!err) {
+        console.log(messages);
       }
     });
 
