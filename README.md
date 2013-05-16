@@ -160,7 +160,7 @@ Assumptions: externalMessage is a meatspace message from a separate server.
 
 ### Get most recent micrologs from a subscribed meatspace
 
-    meat.getSubscriptionRecent('http://some.other.url/recent.json', function (err, m) {
+    meat.getSubscriptionRecent('http://some.other.url/recent.json', function (err, messages) {
       if (!err) {
         console.log(messages);
       }
