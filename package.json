@@ -1,7 +1,7 @@
 {
   "name": "meatspace",
   "version": "0.0.2",
-  "description": "Decentralized micrologging",
+  "description": "A lightweight module to manage mini posts through your node app",
   "main": "index.js",
   "dependencies": {
     "hiredis": "0.1.15",

@@ -2,7 +2,7 @@
 
 ## What it is
 
-Decentralized micrologging. A lightweight module to manage mini posts through your node app.
+Micrologging. A lightweight module to manage mini posts through your node app.
 
 ## Setup
 
