@@ -132,7 +132,7 @@ var Meatspace = function (options) {
   this.getSubscriptionRecent = function (url, callback) {
     client.sismember(KEY + 'subscriptions', url.toLowerCase().trim(), function (err, status) {
       if (err || !status) {
-        callback(new Error('Subscription messages not found'));
+        callback(new Error('Subscription messages not found or you did not subscribe to this url'));
       } else {
         request(url, function (err, resp, body) {
           if (err) {
