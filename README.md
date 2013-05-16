@@ -9,7 +9,6 @@ Decentralized micrologging. A lightweight module to manage mini posts through yo
 Install redis.
 
     > brew install redis
-
     > redis-server
 
 ## Meatspace format
@@ -123,3 +122,7 @@ The default limit is set to 10. You can change this by setting `meat.limit = 15`
         console.log(message);
       }
     });
+
+### Delete the database
+
+    meat.flush();
