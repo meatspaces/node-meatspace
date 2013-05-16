@@ -167,7 +167,17 @@ describe('meatspace', function () {
       var scope = nock('http://some.other.url').get('/recent.json')
                                                .reply(200, [externalMessage]);
       meat.getSubscriptionRecent(subUrl, function (err, m) {
-        should.exist(m);
+        should.not.exist(err);
+        done();
+      });
+    });
+
+    it('does not get recent messages from an invalid JSON response', function (done) {
+      var subUrl = 'http://some.other.url/recent.json';
+      var scope = nock('http://some.other.url').get('/recent.json')
+                                               .reply(200, 'uh oh');
+      meat.getSubscriptionRecent(subUrl, function (err, m) {
+        should.exist(err);
         done();
       });
     });

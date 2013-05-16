@@ -138,11 +138,11 @@ var Meatspace = function (options) {
           if (err) {
             callback(err);
           } else {
-            if (typeof body === 'string') {
+            if (typeof body !== 'object') {
               try {
                 body = JSON.parse(body);
               } catch (e) {
-                callback(new Error('Could not parse JSON'));
+                return callback(new Error('Could not parse JSON'));
               }
             }
 
