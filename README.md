@@ -75,9 +75,9 @@ db is the Redis database you are using.
       }
     };
 
-    meat.create(message, function (err, m) {
+    meat.create(message, function (err, message) {
       if (!err) {
-        console.log(m);
+        console.log(message);
       }
     });
 
@@ -96,9 +96,9 @@ db is the Redis database you are using.
 
 ### Delete
 
-    meat.get(1, function (err, m) {
+    meat.get(1, function (err, message) {
       if (!err) {
-        meat.del(m.id, function (err, status) {
+        meat.del(message.id, function (err, status) {
           if (status) {
             console.log('deleted!')
           }
@@ -160,7 +160,7 @@ Assumptions: externalMessage is a meatspace message from a separate server.
 
 ### Get most recent micrologs from a subscribed meatspace
 
-    meat.getSubscriptionRecent('http://some.other.url/recent.json', function (err, m) {
+    meat.getSubscriptionRecent('http://some.other.url/recent.json', function (err, messages) {
       if (!err) {
         console.log(messages);
       }
