@@ -41,8 +41,12 @@ var Meatspace = function (options) {
     self.messageArray = [];
     self.ids = ids;
 
-    for (var i = 0; i < self.ids.length; i ++) {
-      addToArray(self, i, callback);
+    if (self.ids.length > 0) {
+      for (var i = 0; i < self.ids.length; i ++) {
+        addToArray(self, i, callback);
+      }
+    } else {
+      callback(null, self.messageArray);
     }
   };
 
