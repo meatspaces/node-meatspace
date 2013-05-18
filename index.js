@@ -152,10 +152,10 @@ var Meatspace = function (options) {
 
             var recentArr = [];
 
-            for (var i = 0; i < body.length; i ++) {
-              recentArr.push(body[i]);
+            for (var i = 0; i < body.posts.length; i ++) {
+              recentArr.push(body.posts[i]);
 
-              if (recentArr.length === body.length) {
+              if (recentArr.length === body.posts.length) {
                 callback(null, recentArr);
               }
             }

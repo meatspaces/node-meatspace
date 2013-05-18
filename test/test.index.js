@@ -165,7 +165,7 @@ describe('meatspace', function () {
     it('gets all recent messages from a subscription', function (done) {
       var subUrl = 'http://some.other.url/recent.json';
       var scope = nock('http://some.other.url').get('/recent.json')
-                                               .reply(200, [externalMessage]);
+                                               .reply(200, { posts: [externalMessage] });
       meat.getSubscriptionRecent(subUrl, function (err, m) {
         should.not.exist(err);
         done();
