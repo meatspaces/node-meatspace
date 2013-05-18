@@ -60,7 +60,7 @@ var Meatspace = function (options) {
         } else {
           message.id = id;
           message.fullName = self.fullName;
-          message.postUrl = self.postUrl;
+          message.postUrl = message.meta.originUrl = self.postUrl;
           message.content.created = message.content.updated = Math.round(new Date() / 1000);
 
           client.lpush(KEY + 'all:ids', id);
