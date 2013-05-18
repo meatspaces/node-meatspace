@@ -142,6 +142,14 @@ Assumptions: externalMessage is a meatspace message from a separate server.
       }
     });
 
+### Get all subscriptions
+
+    meat.getSubscriptions(function (err, subscriptoins) {
+      if (!err) {
+        console.log(subscriptions);
+      }
+    });
+
 ### Subscribe to someone else's meatspace
 
     meat.subscribe('http://some.other.url/recent.json', function (err, url) {
