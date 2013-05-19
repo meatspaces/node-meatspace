@@ -136,7 +136,7 @@ The default limit is set to 10. You can change this by setting `meat.limit = 15`
 
 Assumptions: externalMessage is a meatspace message from a separate server.
 
-    meat.share(externalMessage, function (err, message) {
+    meat.share(externalMessage, meat.postUrl, function (err, message) {
       if (!err) {
         console.log(message);
       }

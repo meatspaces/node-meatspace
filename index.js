@@ -92,10 +92,10 @@ var Meatspace = function (options) {
     });
   };
 
-  this.share = function (message, callback) {
+  this.share = function (message, url, callback) {
     if (message.shares.indexOf(this.postUrl) < 0) {
       message.meta.isShared = true;
-      message.shares.push(this.postUrl);
+      message.shares.push(url);
 
       self.create(message, callback);
     } else {

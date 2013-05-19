@@ -128,7 +128,7 @@ describe('meatspace', function () {
 
   describe('.share', function () {
     it('shares an external message', function (done) {
-      meat.share(externalMessage, function (err, m) {
+      meat.share(externalMessage, meat.postUrl, function (err, m) {
         should.exist(m);
         m.shares.length.should.equal(1);
         m.shares[0].should.equal(meat.postUrl);
@@ -139,7 +139,7 @@ describe('meatspace', function () {
     });
 
     it('does not share a post that has already been shared', function (done) {
-      meat.share(externalMessage, function (err, m) {
+      meat.share(externalMessage, meat.postUrl, function (err, m) {
         should.exist(err);
         done();
       });
