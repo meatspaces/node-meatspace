@@ -60,7 +60,9 @@ var Meatspace = function (options) {
         } else {
           message.id = id;
           message.fullName = self.fullName;
-          message.postUrl = message.meta.originUrl = self.postUrl;
+          if (!message.postUrl) {
+            message.postUrl = self.postUrl;
+          }
           message.content.created = message.content.updated = Math.round(new Date() / 1000);
 
           client.lpush(KEY + 'all:ids', id);
@@ -95,6 +97,7 @@ var Meatspace = function (options) {
   this.share = function (message, url, callback) {
     if (message.shares.indexOf(this.postUrl) < 0) {
       message.meta.isShared = true;
+      message.postUrl = url;
       message.shares.push(url);
 
       self.create(message, callback);
