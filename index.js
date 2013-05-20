@@ -223,9 +223,12 @@ var Meatspace = function (options) {
   };
 
   this.shareRecent = function (start, callback) {
+    start = parseInt(start, 10);
+
     if (isNaN(parseInt(start, 10))) {
       start = 0;
     }
+
     client.lrange(KEY + 'public:ids', 0, -1, function (err, cids) {
       if (err) {
         callback(err);
