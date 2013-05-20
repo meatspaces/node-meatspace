@@ -118,7 +118,7 @@ describe('meatspace', function () {
 
   describe('.getAll', function () {
     it('get all messages', function (done) {
-      meat.getAll(function (err, mArr) {
+      meat.getAll(0, function (err, mArr) {
         should.exist(mArr);
         mArr.length.should.equal(2);
         done();
@@ -206,7 +206,7 @@ describe('meatspace', function () {
 
   describe('.shareRecent', function () {
     it('get all recent public messages', function (done) {
-      meat.shareRecent(function (err, mArr) {
+      meat.shareRecent(0, function (err, mArr) {
         should.exist(mArr);
         mArr.length.should.equal(2);
         done();

@@ -1,7 +1,7 @@
 {
   "name": "meatspace",
-  "version": "0.0.3",
-  "description": "Decentralized micrologging",
+  "version": "0.0.4",
+  "description": "Decentralized micro[b]logging",
   "main": "index.js",
   "dependencies": {
     "hiredis": "0.1.15",

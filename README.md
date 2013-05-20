@@ -110,7 +110,9 @@ db is the Redis database you are using.
 
 The default limit is set to 10. You can change this by setting `meat.limit = 15` as an example.
 
-    meat.getAll(function (err, messages) {
+First argument 0 is the starting point from where you want to get messages.
+
+    meat.getAll(0, function (err, messages) {
       if (!err) {
         console.log(messages);
       }
@@ -120,7 +122,9 @@ The default limit is set to 10. You can change this by setting `meat.limit = 15`
 
 The default limit is set to 10. You can change this by setting `meat.limit = 15` as an example.
 
-    meat.shareRecent(function (err, messages) {
+First argument 0 is the starting point from where you want to get messages.
+
+    meat.shareRecent(0, function (err, messages) {
       if (!err) {
         console.log(messages);
       }

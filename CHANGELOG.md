@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.4
+
+* Added pagination support for getAll and shareRecent
+
 ## 0.0.3
 
 * Added sharing support

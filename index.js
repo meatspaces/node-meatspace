@@ -203,15 +203,38 @@ var Meatspace = function (options) {
     });
   };
 
-  this.getAll = function (callback) {
-    client.lrange(KEY + 'all:ids', 0, this.limit, function (err, ids) {
-      loadAll(self, ids, callback);
+  this.getAll = function (start, callback) {
+    start = parseInt(start, 10);
+
+    if (isNaN(start)) {
+      start = 0;
+    }
+
+    client.lrange(KEY + 'all:ids', 0, -1, function (err, cids) {
+      if (err) {
+        callback(err);
+      } else {
+        self.totalAll = cids.length;
+        client.lrange(KEY + 'all:ids', start, self.limit + start, function (err, ids) {
+          loadAll(self, ids, callback);
+        });
+      }
     });
   };
 
-  this.shareRecent = function (callback) {
-    client.lrange(KEY + 'public:ids', 0, this.limit, function (err, ids) {
-      loadAll(self, ids, callback);
+  this.shareRecent = function (start, callback) {
+    if (isNaN(parseInt(start, 10))) {
+      start = 0;
+    }
+    client.lrange(KEY + 'public:ids', 0, -1, function (err, cids) {
+      if (err) {
+        callback(err);
+      } else {
+        self.totalPublic = cids.length;
+        client.lrange(KEY + 'public:ids', start, self.limit + start, function (err, ids) {
+          loadAll(self, ids, callback);
+        });
+      }
     });
   };
 
