@@ -178,10 +178,10 @@ var Meatspace = function (options) {
         client.lrem(KEY + 'private:ids', 0, message.id);
         client.lrem(KEY + 'public:ids', 0, message.id);
 
-        if (message.isPrivate) {
-          client.lpush(KEY + 'private:ids', message.id);
-        } else {
+        if (!message.meta.isPrivate) {
           client.lpush(KEY + 'public:ids', message.id);
+        } else {
+          client.lpush(KEY + 'private:ids', message.id);
         }
 
         client.set(KEY + message.id, JSON.stringify(message));
