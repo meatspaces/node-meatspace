@@ -108,6 +108,8 @@ db is the Redis database you are using.
 
 ### Get all public and private
 
+The default limit is set to 10. You can change this by setting `meat.limit = 15` as an example.
+
     meat.getAll(function (err, messages) {
       if (!err) {
         console.log(messages);
@@ -177,3 +179,8 @@ Assumptions: externalMessage is a meatspace message from a separate server.
 ### Delete the database
 
     meat.flush();
+
+## Important notes and tips
+
+* Your posts will not be automatically protected from XSS so that is up to you to handle if you decide to use this in a web app. If you want to work from an existing example, feel free to fork [generaltoast](https://github.com/ednapiranha/generaltoast).
+* If you want to back up your messages in a secondary database such as PostgreSQL or MySQL, just add this after a successfull callback in meat.add, meat.del, etc.

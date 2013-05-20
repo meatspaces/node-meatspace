@@ -67,10 +67,10 @@ var Meatspace = function (options) {
 
           client.lpush(KEY + 'all:ids', id);
 
-          if (message.meta.isPrivate) {
-            client.lpush(KEY + 'private:ids', id);
-          } else {
+          if (!message.meta.isPrivate) {
             client.lpush(KEY + 'public:ids', id);
+          } else {
+            client.lpush(KEY + 'private:ids', id);
           }
 
           client.set(KEY + id, JSON.stringify(message));
@@ -204,7 +204,7 @@ var Meatspace = function (options) {
   };
 
   this.getAll = function (callback) {
-    client.lrange(KEY + 'all:ids', 0, -1, function (err, ids) {
+    client.lrange(KEY + 'all:ids', 0, this.limit, function (err, ids) {
       loadAll(self, ids, callback);
     });
   };
