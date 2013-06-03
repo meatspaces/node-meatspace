@@ -52,10 +52,13 @@ Install redis.
       fullName: 'Edna Piranha',
       postUrl: 'http://meatspace.generalgoods.net/recent.json',
       db: 0,
-      limit: 10
+      limit: 10,
+      keyId: 1
     });
 
 db is the Redis database you are using.
+
+keyId is an optional value you can set to assign a key to a particular user id or identifier. If you are not running this for multiple users, skip changing this option.
 
 ### Create
 

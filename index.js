@@ -12,6 +12,7 @@ var Meatspace = function (options) {
   }
 
   var self = this;
+
   this.fullName = options.fullName;
   this.postUrl = options.postUrl;
   this.db = options.db || 0;
@@ -25,7 +26,7 @@ var Meatspace = function (options) {
   });
 
   var addToArray = function (self, i, callback) {
-    self.get(self.ids[i], function (err, m) {
+    self.get(self.ids[i] + self.keyId, function (err, m) {
       if (err) {
         callback(err);
       } else {
@@ -52,8 +53,6 @@ var Meatspace = function (options) {
   };
 
   this.create = function (message, callback) {
-    var self = this;
-
     if (!message || !this.fullName || !this.postUrl) {
       callback(new Error('Message invalid'));
     } else {
@@ -76,7 +75,7 @@ var Meatspace = function (options) {
             client.lpush(KEY + 'public:ids' + self.keyId, id);
           }
 
-          client.set(KEY + id, JSON.stringify(message));
+          client.set(KEY + id + self.keyId, JSON.stringify(message));
           callback(null, message);
         }
       });
@@ -84,7 +83,7 @@ var Meatspace = function (options) {
   };
 
   this.get = function (id, callback) {
-    client.get(KEY + id, function (err, message) {
+    client.get(KEY + id + this.keyId, function (err, message) {
       if (err || !message) {
         callback(new Error('Not found'));
       } else {
@@ -172,35 +171,35 @@ var Meatspace = function (options) {
   };
 
   this.update = function (message, callback) {
-    self.get(message.id, function (err, msg) {
+    self.get(message.id + this.keyId, function (err, msg) {
       if (err) {
         callback(err);
       } else {
         message.content.updated = Math.round(new Date() / 1000);
 
-        client.lrem(KEY + 'private:ids' + this.keyId, 0, message.id);
-        client.lrem(KEY + 'public:ids' + this.keyId, 0, message.id);
+        client.lrem(KEY + 'private:ids' + self.keyId, 0, message.id);
+        client.lrem(KEY + 'public:ids' + self.keyId, 0, message.id);
 
         if (message.isPrivate) {
-          client.lpush(KEY + 'private:ids' + this.keyId, message.id);
+          client.lpush(KEY + 'private:ids' + self.keyId, message.id);
         } else {
-          client.lpush(KEY + 'public:ids' + this.keyId, message.id);
+          client.lpush(KEY + 'public:ids' + self.keyId, message.id);
         }
 
-        client.set(KEY + message.id, JSON.stringify(message));
+        client.set(KEY + message.id + self.keyId, JSON.stringify(message));
         callback(null, message);
       }
     });
   };
 
   this.del = function (id, callback) {
-    client.del(KEY + id, function (err) {
+    client.del(KEY + id + this.keyId, function (err) {
       if (err) {
         callback(new Error('Error deleting'));
       } else {
-        client.lrem(KEY + 'all:ids' + this.keyId, 0, id);
-        client.lrem(KEY + 'private:ids' + this.keyId, 0, id);
-        client.lrem(KEY + 'public:ids' + this.keyId, 0, id);
+        client.lrem(KEY + 'all:ids' + self.keyId, 0, id);
+        client.lrem(KEY + 'private:ids' + self.keyId, 0, id);
+        client.lrem(KEY + 'public:ids' + self.keyId, 0, id);
         callback(null, true);
       }
     });
@@ -218,7 +217,7 @@ var Meatspace = function (options) {
         callback(err);
       } else {
         self.totalAll = cids.length;
-        client.lrange(KEY + 'all:ids' + this.keyId, start, self.limit + start, function (err, ids) {
+        client.lrange(KEY + 'all:ids' + self.keyId, start, self.limit + start, function (err, ids) {
           loadAll(self, ids, callback);
         });
       }

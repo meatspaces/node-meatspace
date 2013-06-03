@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.5
+
+* Added support for custom key ids so you can assign a unique identifier per user
+
 ## 0.0.4
 
 * Added pagination support for getAll and shareRecent

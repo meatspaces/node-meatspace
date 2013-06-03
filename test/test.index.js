@@ -82,6 +82,17 @@ describe('meatspace', function () {
         done();
       });
     });
+
+    it('creates a valid public message with a key id', function (done) {
+      meat.keyId = ':testId';
+      message.content.message = 'a new message with a key id';
+      meat.create(message, function (err, m) {
+        should.exist(m);
+        m.content.message.should.equal('a new message with a key id');
+        meat.keyId = ''; // reset to empty
+        done();
+      });
+    });
   });
 
   describe('.get', function () {
