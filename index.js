@@ -83,7 +83,7 @@ var Meatspace = function (options) {
   };
 
   this.get = function (id, callback) {
-    client.get(id, function (err, message) {
+    client.get(KEY + id, function (err, message) {
       if (err || !message) {
         callback(new Error('Not found'));
       } else {
