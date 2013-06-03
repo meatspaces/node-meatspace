@@ -16,6 +16,7 @@ var Meatspace = function (options) {
   this.postUrl = options.postUrl;
   this.db = options.db || 0;
   this.limit = options.limit - 1 || 9;
+  this.keyId = '';
 
   client.select(this.db || 0, function (err, res) {
     if (err) {
@@ -51,6 +52,8 @@ var Meatspace = function (options) {
   };
 
   this.create = function (message, callback) {
+    var self = this;
+
     if (!message || !this.fullName || !this.postUrl) {
       callback(new Error('Message invalid'));
     } else {
@@ -65,12 +68,12 @@ var Meatspace = function (options) {
           }
           message.content.created = message.content.updated = Math.round(new Date() / 1000);
 
-          client.lpush(KEY + 'all:ids', id);
+          client.lpush(KEY + 'all:ids' + self.keyId, id);
 
-          if (!message.meta.isPrivate) {
-            client.lpush(KEY + 'public:ids', id);
+          if (message.meta.isPrivate) {
+            client.lpush(KEY + 'private:ids' + self.keyId, id);
           } else {
-            client.lpush(KEY + 'private:ids', id);
+            client.lpush(KEY + 'public:ids' + self.keyId, id);
           }
 
           client.set(KEY + id, JSON.stringify(message));
@@ -107,7 +110,7 @@ var Meatspace = function (options) {
   };
 
   this.subscribe = function (url, callback) {
-    client.sadd(KEY + 'subscriptions', url.toLowerCase().trim(), function (err) {
+    client.sadd(KEY + 'subscriptions' + this.keyId, url.toLowerCase().trim(), function (err) {
       if (err) {
         callback(err);
       } else {
@@ -117,7 +120,7 @@ var Meatspace = function (options) {
   };
 
   this.unsubscribe = function (url, callback) {
-    client.srem(KEY + 'subscriptions', url.toLowerCase().trim(), function (err) {
+    client.srem(KEY + 'subscriptions' + this.keyId, url.toLowerCase().trim(), function (err) {
       if (err) {
         callback(err);
       } else {
@@ -127,7 +130,7 @@ var Meatspace = function (options) {
   }
 
   this.getSubscriptions = function (callback) {
-    client.smembers(KEY + 'subscriptions', function (err, subscriptions) {
+    client.smembers(KEY + 'subscriptions' + this.keyId, function (err, subscriptions) {
       if (err) {
         callback(err);
       } else {
@@ -137,7 +140,7 @@ var Meatspace = function (options) {
   };
 
   this.getSubscriptionRecent = function (url, callback) {
-    client.sismember(KEY + 'subscriptions', url.toLowerCase().trim(), function (err, status) {
+    client.sismember(KEY + 'subscriptions' + this.keyId, url.toLowerCase().trim(), function (err, status) {
       if (err || !status) {
         callback(new Error('Subscription messages not found or you did not subscribe to this url'));
       } else {
@@ -175,13 +178,13 @@ var Meatspace = function (options) {
       } else {
         message.content.updated = Math.round(new Date() / 1000);
 
-        client.lrem(KEY + 'private:ids', 0, message.id);
-        client.lrem(KEY + 'public:ids', 0, message.id);
+        client.lrem(KEY + 'private:ids' + this.keyId, 0, message.id);
+        client.lrem(KEY + 'public:ids' + this.keyId, 0, message.id);
 
-        if (!message.meta.isPrivate) {
-          client.lpush(KEY + 'public:ids', message.id);
+        if (message.isPrivate) {
+          client.lpush(KEY + 'private:ids' + this.keyId, message.id);
         } else {
-          client.lpush(KEY + 'private:ids', message.id);
+          client.lpush(KEY + 'public:ids' + this.keyId, message.id);
         }
 
         client.set(KEY + message.id, JSON.stringify(message));
@@ -195,9 +198,9 @@ var Meatspace = function (options) {
       if (err) {
         callback(new Error('Error deleting'));
       } else {
-        client.lrem(KEY + 'all:ids', 0, id);
-        client.lrem(KEY + 'private:ids', 0, id);
-        client.lrem(KEY + 'public:ids', 0, id);
+        client.lrem(KEY + 'all:ids' + this.keyId, 0, id);
+        client.lrem(KEY + 'private:ids' + this.keyId, 0, id);
+        client.lrem(KEY + 'public:ids' + this.keyId, 0, id);
         callback(null, true);
       }
     });
@@ -210,12 +213,12 @@ var Meatspace = function (options) {
       start = 0;
     }
 
-    client.lrange(KEY + 'all:ids', 0, -1, function (err, cids) {
+    client.lrange(KEY + 'all:ids' + this.keyId, 0, -1, function (err, cids) {
       if (err) {
         callback(err);
       } else {
         self.totalAll = cids.length;
-        client.lrange(KEY + 'all:ids', start, self.limit + start, function (err, ids) {
+        client.lrange(KEY + 'all:ids' + this.keyId, start, self.limit + start, function (err, ids) {
           loadAll(self, ids, callback);
         });
       }
@@ -229,7 +232,7 @@ var Meatspace = function (options) {
       start = 0;
     }
 
-    client.lrange(KEY + 'public:ids', 0, -1, function (err, cids) {
+    client.lrange(KEY + 'public:ids' + this.keyId, 0, -1, function (err, cids) {
       if (err) {
         callback(err);
       } else {
