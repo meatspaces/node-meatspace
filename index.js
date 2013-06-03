@@ -17,7 +17,7 @@ var Meatspace = function (options) {
   this.postUrl = options.postUrl;
   this.db = options.db || 0;
   this.limit = options.limit - 1 || 9;
-  this.keyId = '';
+  this.keyId = ':1';
 
   client.select(this.db || 0, function (err, res) {
     if (err) {
@@ -26,7 +26,7 @@ var Meatspace = function (options) {
   });
 
   var addToArray = function (self, i, callback) {
-    self.get(self.ids[i] + self.keyId, function (err, m) {
+    self.get(KEY + self.ids[i], function (err, m) {
       if (err) {
         callback(err);
       } else {
@@ -75,7 +75,7 @@ var Meatspace = function (options) {
             client.lpush(KEY + 'public:ids' + self.keyId, id);
           }
 
-          client.set(KEY + id + self.keyId, JSON.stringify(message));
+          client.set(KEY + id, JSON.stringify(message));
           callback(null, message);
         }
       });
@@ -83,7 +83,7 @@ var Meatspace = function (options) {
   };
 
   this.get = function (id, callback) {
-    client.get(KEY + id, function (err, message) {
+    client.get(id, function (err, message) {
       if (err || !message) {
         callback(new Error('Not found'));
       } else {
@@ -171,7 +171,7 @@ var Meatspace = function (options) {
   };
 
   this.update = function (message, callback) {
-    self.get(message.id + this.keyId, function (err, msg) {
+    self.get(KEY + message.id, function (err, msg) {
       if (err) {
         callback(err);
       } else {
@@ -186,14 +186,14 @@ var Meatspace = function (options) {
           client.lpush(KEY + 'public:ids' + self.keyId, message.id);
         }
 
-        client.set(KEY + message.id + self.keyId, JSON.stringify(message));
+        client.set(KEY + message.id, JSON.stringify(message));
         callback(null, message);
       }
     });
   };
 
   this.del = function (id, callback) {
-    client.del(KEY + id + this.keyId, function (err) {
+    client.del(KEY + id, function (err) {
       if (err) {
         callback(new Error('Error deleting'));
       } else {
