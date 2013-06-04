@@ -236,7 +236,7 @@ var Meatspace = function (options) {
         callback(err);
       } else {
         self.totalPublic = cids.length;
-        client.lrange(KEY + 'public:ids', start, self.limit + start, function (err, ids) {
+        client.lrange(KEY + 'public:ids' + self.keyId, start, self.limit + start, function (err, ids) {
           loadAll(self, ids, callback);
         });
       }
