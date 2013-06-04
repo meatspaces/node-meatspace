@@ -70,7 +70,7 @@ var Meatspace = function (options) {
           client.lpush(KEY + 'all:ids' + self.keyId, id);
 
           if (message.meta.isPrivate) {
-            client.lpush(KEY + 'private:ids' + self.keyId, id);
+            client.lpush(KEY + 'priv:ids' + self.keyId, id);
           } else {
             client.lpush(KEY + 'public:ids' + self.keyId, id);
           }
@@ -177,11 +177,11 @@ var Meatspace = function (options) {
       } else {
         message.content.updated = Math.round(new Date() / 1000);
 
-        client.lrem(KEY + 'private:ids' + self.keyId, 0, message.id);
+        client.lrem(KEY + 'priv:ids' + self.keyId, 0, message.id);
         client.lrem(KEY + 'public:ids' + self.keyId, 0, message.id);
 
         if (message.isPrivate) {
-          client.lpush(KEY + 'private:ids' + self.keyId, message.id);
+          client.lpush(KEY + 'priv:ids' + self.keyId, message.id);
         } else {
           client.lpush(KEY + 'public:ids' + self.keyId, message.id);
         }
@@ -198,7 +198,7 @@ var Meatspace = function (options) {
         callback(new Error('Error deleting'));
       } else {
         client.lrem(KEY + 'all:ids' + self.keyId, 0, id);
-        client.lrem(KEY + 'private:ids' + self.keyId, 0, id);
+        client.lrem(KEY + 'priv:ids' + self.keyId, 0, id);
         client.lrem(KEY + 'public:ids' + self.keyId, 0, id);
         callback(null, true);
       }
