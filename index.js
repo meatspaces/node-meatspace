@@ -17,7 +17,7 @@ var Meatspace = function (options) {
   this.postUrl = options.postUrl;
   this.db = options.db || 0;
   this.limit = options.limit - 1 || 9;
-  this.keyId = ':1';
+  this.keyId = '';
 
   client.select(this.db || 0, function (err, res) {
     if (err) {
@@ -26,7 +26,7 @@ var Meatspace = function (options) {
   });
 
   var addToArray = function (self, i, callback) {
-    self.get(KEY + self.ids[i], function (err, m) {
+    self.get(self.ids[i], function (err, m) {
       if (err) {
         callback(err);
       } else {
@@ -171,7 +171,7 @@ var Meatspace = function (options) {
   };
 
   this.update = function (message, callback) {
-    self.get(KEY + message.id, function (err, msg) {
+    self.get(message.id, function (err, msg) {
       if (err) {
         callback(err);
       } else {
