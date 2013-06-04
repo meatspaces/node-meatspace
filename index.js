@@ -180,7 +180,7 @@ var Meatspace = function (options) {
         client.lrem(KEY + 'priv:ids' + self.keyId, 0, message.id);
         client.lrem(KEY + 'public:ids' + self.keyId, 0, message.id);
 
-        if (message.isPrivate) {
+        if (message.meta.isPrivate) {
           client.lpush(KEY + 'priv:ids' + self.keyId, message.id);
         } else {
           client.lpush(KEY + 'public:ids' + self.keyId, message.id);
