@@ -137,6 +137,16 @@ describe('meatspace', function () {
     });
   });
 
+  describe('.getAllIds', function () {
+    it('get all message ids', function (done) {
+      meat.getAllIds(function (err, mArr) {
+        should.exist(mArr);
+        mArr.length.should.equal(2);
+        done();
+      });
+    });
+  });
+
   describe('.share', function () {
     it('shares an external message', function (done) {
       meat.share(externalMessage, meat.postUrl, function (err, m) {

@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.6
+
+* Added getAllIds to return all ids for messages from a user
+
 ## 0.0.5
 
 * Added support for custom key ids so you can assign a unique identifier per user

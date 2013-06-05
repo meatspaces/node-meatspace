@@ -224,6 +224,16 @@ var Meatspace = function (options) {
     });
   };
 
+  this.getAllIds = function (callback) {
+    client.lrange(KEY + 'all:ids' + this.keyId, 0, -1, function (err, cids) {
+      if (err) {
+        callback(err);
+      } else {
+        callback(null, cids);
+      }
+    });
+  };
+
   this.shareRecent = function (start, callback) {
     start = parseInt(start, 10);
 
