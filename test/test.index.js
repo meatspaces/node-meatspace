@@ -8,6 +8,7 @@ var Meatspace = require('../index');
 
 var meat = new Meatspace({
   fullName: 'test name',
+  username: 'test',
   postUrl: 'http://test.com/recent.json',
   db: 0
 });
@@ -62,11 +63,13 @@ describe('meatspace', function () {
 
     it('creates a valid public message', function (done) {
       meat.fullName = 'test name';
+      meat.username = 'test2';
       meat.postUrl = 'http://url.to.blog.com/recent.json';
       meat.create(message, function (err, m) {
         id = m.id;
         should.exist(m);
         m.content.should.equal(message.content);
+        m.username.should.equal(meat.username);
         m.fullName.should.equal(meat.fullName);
         m.meta.should.equal(message.meta);
         done();

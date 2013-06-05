@@ -7,13 +7,14 @@ var request = require('request');
 var KEY = 'meatspace:';
 
 var Meatspace = function (options) {
-  if (!options.fullName || !options.postUrl) {
-    throw new Error('fullName and postUrl are mandatory');
+  if (!options.fullName || !options.postUrl || !options.username) {
+    throw new Error('fullName, username and postUrl are mandatory');
   }
 
   var self = this;
 
   this.fullName = options.fullName;
+  this.username = options.username;
   this.postUrl = options.postUrl;
   this.db = options.db || 0;
   this.limit = options.limit - 1 || 9;
@@ -62,6 +63,7 @@ var Meatspace = function (options) {
         } else {
           message.id = id;
           message.fullName = self.fullName;
+          message.username = self.username;
           if (!message.postUrl) {
             message.postUrl = self.postUrl;
           }
