@@ -50,10 +50,11 @@ Install redis.
 
     var meat = new Meatspace({
       fullName: 'Edna Piranha',
+      username: 'ednapiranha',
       postUrl: 'http://meatspace.generalgoods.net/recent.json',
       db: 0,
       limit: 10,
-      keyId: 1
+      keyId: ':1'
     });
 
 db is the Redis database you are using.
