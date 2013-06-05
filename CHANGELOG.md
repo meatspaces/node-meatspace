@@ -3,6 +3,7 @@
 ## 0.0.6
 
 * Added getAllIds to return all ids for messages from a user
+* Added username requirement
 
 ## 0.0.5
 
