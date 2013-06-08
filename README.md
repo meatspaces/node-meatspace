@@ -15,6 +15,10 @@ Install redis.
     > brew install redis
     > redis-server
 
+## Install dependencies
+
+> npm install
+
 ## Meatspace format
 
     {
