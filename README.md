@@ -192,6 +192,10 @@ Assumptions: externalMessage is a meatspace message from a separate server.
 
     meat.flush();
 
+## Tests
+
+> make test
+
 ## Important notes and tips
 
 * Your posts will not be automatically protected from XSS so that is up to you to handle if you decide to use this in a web app. If you want to work from an existing example, feel free to fork [generaltoast](https://github.com/ednapiranha/generaltoast).
