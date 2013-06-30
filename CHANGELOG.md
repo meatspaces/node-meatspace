@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.7
+
+* Updated git link for repository
+
 ## 0.0.6
 
 * Added getAllIds to return all ids for messages from a user
