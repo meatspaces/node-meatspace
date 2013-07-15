@@ -61,9 +61,11 @@ Install redis.
       keyId: ':1'
     });
 
-db is the Redis database you are using.
+`db` is the Redis database you are using.
 
-keyId is an optional value you can set to assign a key to a particular user id or identifier. If you are not running this for multiple users, skip changing this option.
+`keyId` is an optional value you can set to assign a key to a particular user id or identifier. If you are not running this for multiple users, skip changing this option (optional).
+
+`limit` is the number of records you want returned per page - defaults to 10 (optional).
 
 ### Create
 
